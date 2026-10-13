@@ -6,6 +6,10 @@ import { ErrorHttp } from './lib/errores.js';
 import authRoutes from './modules/auth/auth.routes.js';
 import productosRoutes from './modules/productos/productos.routes.js';
 import categoriasRoutes from './modules/categorias/categorias.routes.js';
+import clientesRoutes from './modules/clientes/clientes.routes.js';
+import cuentasRoutes from './modules/cuentas/cuentas.routes.js';
+import ventasRoutes from './modules/ventas/ventas.routes.js';
+import pedidosRoutes from './modules/pedidos/pedidos.routes.js';
 
 const app = express();
 
@@ -24,6 +28,10 @@ app.get('/api/health', async (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/productos', productosRoutes);
 app.use('/api/categorias', categoriasRoutes);
+app.use('/api/clientes', clientesRoutes);
+app.use('/api/cuentas', cuentasRoutes);
+app.use('/api/ventas', ventasRoutes);
+app.use('/api/pedidos', pedidosRoutes);
 
 // Rutas /api que no existen
 app.use('/api', (req, res) => {

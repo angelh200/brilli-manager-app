@@ -7,6 +7,10 @@ import LoginPage from './pages/LoginPage';
 import MasPage from './pages/MasPage';
 import InventarioPage from './pages/InventarioPage';
 import ProductoDetallePage from './pages/ProductoDetallePage';
+import ClientesPage from './pages/ClientesPage';
+import ClienteDetallePage from './pages/ClienteDetallePage';
+import VentasPage from './pages/VentasPage';
+import NuevaVentaPage from './pages/NuevaVentaPage';
 
 // "/" es el Dashboard para admin; el ayudante va directo a Ventas
 function Inicio() {
@@ -23,9 +27,11 @@ export default function App() {
       <Route element={<RutaProtegida />}>
         <Route element={<AppLayout />}>
           <Route index element={<Inicio />} />
-          <Route path="ventas" element={<PaginaPendiente titulo="Ventas" />} />
+          <Route path="ventas" element={<VentasPage />} />
+          <Route path="ventas/nueva" element={<NuevaVentaPage />} />
           <Route path="pedidos" element={<PaginaPendiente titulo="Pedidos" />} />
-          <Route path="clientes" element={<PaginaPendiente titulo="Clientes" />} />
+          <Route path="clientes" element={<ClientesPage />} />
+          <Route path="clientes/:id" element={<ClienteDetallePage />} />
           <Route path="inventario" element={<InventarioPage />} />
           <Route path="inventario/:id" element={<ProductoDetallePage />} />
           <Route path="mas" element={<MasPage />} />
