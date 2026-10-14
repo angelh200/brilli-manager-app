@@ -10,6 +10,8 @@ import clientesRoutes from './modules/clientes/clientes.routes.js';
 import cuentasRoutes from './modules/cuentas/cuentas.routes.js';
 import ventasRoutes from './modules/ventas/ventas.routes.js';
 import pedidosRoutes from './modules/pedidos/pedidos.routes.js';
+import comprasRoutes from './modules/compras/compras.routes.js';
+import proveedoresRoutes from './modules/proveedores/proveedores.routes.js';
 
 const app = express();
 
@@ -32,6 +34,8 @@ app.use('/api/clientes', clientesRoutes);
 app.use('/api/cuentas', cuentasRoutes);
 app.use('/api/ventas', ventasRoutes);
 app.use('/api/pedidos', pedidosRoutes);
+app.use('/api/compras', comprasRoutes);
+app.use('/api/proveedores', proveedoresRoutes);
 
 // Rutas /api que no existen
 app.use('/api', (req, res) => {

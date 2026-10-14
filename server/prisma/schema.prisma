@@ -158,6 +158,8 @@ model Compra {
   total             Decimal  @db.Decimal(12, 2)
   notas             String?
   anulada           Boolean  @default(false)
+  anuladaEn       DateTime?
+  motivoAnulacion String?
 
   proveedor Proveedor? @relation(fields: [proveedorId], references: [id])
   cuenta    Cuenta?    @relation(fields: [cuentaId], references: [id])
