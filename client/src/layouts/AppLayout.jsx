@@ -11,7 +11,7 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen bg-gray-50 md:flex">
       {/* Barra lateral: solo escritorio */}
-      <aside className="hidden md:flex md:w-60 md:flex-col md:fixed md:inset-y-0 bg-white border-r border-gray-200">
+      <aside className="print:hidden hidden md:flex md:w-60 md:flex-col md:fixed md:inset-y-0 bg-white border-r border-gray-200">
         <div className="px-5 py-5 text-xl font-bold text-pink-600">Brilli Manager</div>
 
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
@@ -45,12 +45,12 @@ export default function AppLayout() {
       </aside>
 
       {/* Contenido */}
-      <main className="flex-1 md:ml-60 p-4 pb-24 md:p-8 md:pb-8">
+      <main className="print:ml-0 print:p-0 flex-1 md:ml-60 p-4 pb-24 md:p-8 md:pb-8">
         <Outlet />
       </main>
 
       {/* Barra inferior: solo celular */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-10 bg-white border-t border-gray-200 flex justify-around">
+      <nav className="print:hidden md:hidden fixed bottom-0 inset-x-0 z-10 bg-white border-t border-gray-200 flex justify-around">
         {principales.map(({ ruta, etiqueta, icono: Icono }) => (
           <NavLink
             key={ruta}

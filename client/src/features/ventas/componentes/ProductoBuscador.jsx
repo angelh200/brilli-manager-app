@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useProductos } from '@/features/inventario/hooks';
 
-export default function ProductoBuscador({ onAgregar, cantidadesEnVenta }) {
+
+export default function ProductoBuscador({ onAgregar, cantidadesEnVenta, permitirAgotados = false }) {
   const [texto, setTexto] = useState('');
   const buscar = useDebounce(texto.trim(), 250);
   const { data: productos = [], isLoading } = useProductos({ buscar: buscar || undefined });
@@ -29,7 +30,7 @@ export default function ProductoBuscador({ onAgregar, cantidadesEnVenta }) {
 
       <ul className="max-h-72 divide-y divide-gray-100 overflow-y-auto rounded-lg border border-gray-200 bg-white">
         {visibles.map((p) => {
-          const agotado = p.stockActual <= 0;
+          const agotado = p.stockActual <= 0 && !permitirAgotados;
           const enVenta = cantidadesEnVenta.get(p.id);
           return (
             <li key={p.id}>

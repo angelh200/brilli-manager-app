@@ -11,6 +11,10 @@ import ClientesPage from './pages/ClientesPage';
 import ClienteDetallePage from './pages/ClienteDetallePage';
 import VentasPage from './pages/VentasPage';
 import NuevaVentaPage from './pages/NuevaVentaPage';
+import PedidosPage from './pages/PedidosPage';
+import PedidoDetallePage from './pages/PedidoDetallePage';
+import ComprasPage from './pages/ComprasPage';
+import NuevaCompraPage from './pages/NuevaCompraPage';
 
 // "/" es el Dashboard para admin; el ayudante va directo a Ventas
 function Inicio() {
@@ -29,7 +33,8 @@ export default function App() {
           <Route index element={<Inicio />} />
           <Route path="ventas" element={<VentasPage />} />
           <Route path="ventas/nueva" element={<NuevaVentaPage />} />
-          <Route path="pedidos" element={<PaginaPendiente titulo="Pedidos" />} />
+          <Route path="pedidos" element={<PedidosPage />} />
+          <Route path="pedidos/:id" element={<PedidoDetallePage />} />
           <Route path="clientes" element={<ClientesPage />} />
           <Route path="clientes/:id" element={<ClienteDetallePage />} />
           <Route path="inventario" element={<InventarioPage />} />
@@ -38,7 +43,8 @@ export default function App() {
 
           {/* Solo admin */}
           <Route element={<RutaProtegida roles={['admin']} />}>
-            <Route path="compras" element={<PaginaPendiente titulo="Compras" />} />
+            <Route path="compras" element={<ComprasPage />} />
+            <Route path="compras/nueva" element={<NuevaCompraPage />} />
             <Route path="caja" element={<PaginaPendiente titulo="Caja y cuentas" />} />
             <Route path="finanzas" element={<PaginaPendiente titulo="Finanzas" />} />
             <Route path="reportes" element={<PaginaPendiente titulo="Reportes" />} />

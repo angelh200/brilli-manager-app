@@ -7,6 +7,7 @@ import CampoFormulario from '@/components/comunes/CampoFormulario';
 import EstadoPedidoBadge from '@/features/pedidos/componentes/EstadoPedidoBadge';
 import { formatearCosto, formatearFechaHora, formatearSoles } from '@/lib/formato';
 import { useAnularVenta } from '../hooks';
+import { Link } from 'react-router-dom';
 
 function Fila({ etiqueta, children }) {
   return (
@@ -87,7 +88,10 @@ export default function VentaDetalleDialog({ venta, esAdmin, onCerrar }) {
           )}
           {venta.pedido && (
             <Fila etiqueta="Pedido">
-              #{venta.pedido.id} <EstadoPedidoBadge estado={venta.pedido.estado} />
+              <Link to={`/pedidos/${venta.pedido.id}`} className="text-pink-600 underline">
+                #{venta.pedido.id}
+              </Link>{' '}
+              <EstadoPedidoBadge estado={venta.pedido.estado} />
             </Fila>
           )}
           {venta.creadoPor && <Fila etiqueta="Registrada por">{venta.creadoPor}</Fila>}

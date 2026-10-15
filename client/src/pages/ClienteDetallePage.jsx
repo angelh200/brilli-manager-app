@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, Pencil, ShoppingBag, Users } from 'lucide-react';
+import { ArrowLeft, Pencil, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -10,6 +10,7 @@ import EstadoVacio from '@/components/comunes/EstadoVacio';
 import { useAuth } from '@/context/AuthContext';
 import { useActualizarCliente, useCliente } from '@/features/clientes/hooks';
 import ClienteFormDialog from '@/features/clientes/componentes/ClienteFormDialog';
+import HistorialCliente from '@/features/clientes/componentes/HistorialCliente';
 
 function Dato({ titulo, children }) {
   return (
@@ -124,11 +125,7 @@ export default function ClienteDetallePage() {
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold text-gray-800">Compras y pedidos</h2>
-        <EstadoVacio
-          icono={ShoppingBag}
-          titulo="Historial pendiente"
-          descripcion="Aquí aparecerán sus ventas, pedidos y la utilidad que genera cuando se implemente el módulo de Ventas."
-        />
+        <HistorialCliente clienteId={cliente.id} esAdmin={esAdmin} />
       </section>
 
       <ClienteFormDialog abierto={editando} onCerrar={() => setEditando(false)} cliente={cliente} />

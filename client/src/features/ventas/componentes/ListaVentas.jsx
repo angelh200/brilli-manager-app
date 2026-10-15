@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
-import { formatearHora, formatearSoles } from '@/lib/formato';
+import { formatearFechaCorta, formatearHora, formatearSoles } from '@/lib/formato';
 
-export default function ListaVentas({ ventas, onSeleccionar }) {
+export default function ListaVentas({ ventas, onSeleccionar, mostrarFecha = false }) {
   return (
     <ul className="space-y-2">
       {ventas.map((v) => {
@@ -15,7 +15,10 @@ export default function ListaVentas({ ventas, onSeleccionar }) {
                 v.anulada ? 'opacity-60' : ''
               }`}
             >
-              <div className="w-12 shrink-0 text-sm text-gray-500">{formatearHora(v.fecha)}</div>
+              <div className="w-14 shrink-0 text-xs text-gray-500">
+                {mostrarFecha && <div className="font-medium text-gray-700">{formatearFechaCorta(v.fecha)}</div>}
+                <div>{formatearHora(v.fecha)}</div>
+              </div>
 
               <div className="min-w-0 flex-1">
                 <p className="truncate font-medium text-gray-800">{v.cliente.nombre}</p>

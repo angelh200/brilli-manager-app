@@ -31,3 +31,7 @@ export function sumarDias(aaaammdd, dias) {
   const base = new Date(`${aaaammdd}T12:00:00-05:00`);
   return new Date(base.getTime() + dias * DIA_MS).toLocaleDateString('en-CA', { timeZone: ZONA });
 }
+
+const formatoDiaCorto = new Intl.DateTimeFormat('es-PE', { day: '2-digit', month: '2-digit', timeZone: ZONA });
+// "12/10"
+export const formatearFechaCorta = (fecha) => formatoDiaCorto.format(new Date(fecha));
