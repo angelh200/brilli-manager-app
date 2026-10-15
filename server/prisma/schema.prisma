@@ -300,6 +300,9 @@ model MovimientoCaja {
   ventaId         Int?
   compraId        Int?
   fecha           DateTime           @default(now())
+  anulado Boolean @default(false)
+  anuladoEn DateTime?
+  motivoAnulacion String?
 
   cuenta        Cuenta  @relation("CuentaOrigen", fields: [cuentaId], references: [id])
   cuentaDestino Cuenta? @relation("CuentaDestino", fields: [cuentaDestinoId], references: [id])

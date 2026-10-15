@@ -12,6 +12,7 @@ import ventasRoutes from './modules/ventas/ventas.routes.js';
 import pedidosRoutes from './modules/pedidos/pedidos.routes.js';
 import comprasRoutes from './modules/compras/compras.routes.js';
 import proveedoresRoutes from './modules/proveedores/proveedores.routes.js';
+import cajaRoutes from './modules/caja/caja.routes.js';
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use('/api/ventas', ventasRoutes);
 app.use('/api/pedidos', pedidosRoutes);
 app.use('/api/compras', comprasRoutes);
 app.use('/api/proveedores', proveedoresRoutes);
+app.use('/api/caja', cajaRoutes);
 
 // Rutas /api que no existen
 app.use('/api', (req, res) => {
