@@ -60,6 +60,7 @@ export default function MovimientoDetalleDialog({ movimiento, onCerrar }) {
           {m.cuentaDestino && <Fila etiqueta="Hacia">{m.cuentaDestino.nombre}</Fila>}
           {m.ventaId && <Fila etiqueta="Origen">Venta #{m.ventaId}</Fila>}
           {m.compraId && <Fila etiqueta="Origen">Compra #{m.compraId}</Fila>}
+          {m.gastoId && <Fila etiqueta="Origen">Gasto #{m.gastoId}</Fila>}
         </div>
 
         {m.descripcion && (

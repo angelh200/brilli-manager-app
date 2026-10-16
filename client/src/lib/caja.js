@@ -7,6 +7,7 @@ export const ETIQUETAS_CATEGORIA = {
   retiro_socio: 'Retiro de socio',
   aporte_socio: 'Aporte de socio',
   ajuste_saldo: 'Ajuste de saldo',
+  gasto: 'Gasto'
 };
 
 export const etiquetaMovimiento = (m) =>

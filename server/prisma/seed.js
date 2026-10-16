@@ -66,6 +66,25 @@ async function main() {
     });
   }
   console.log('Configuración lista');
+
+    // --- Categorías de gasto ---
+  const categoriasGasto = [
+    { nombre: 'Alquiler', tipo: 'fijo' },
+    { nombre: 'Internet y servicios', tipo: 'fijo' },
+    { nombre: 'Software y suscripciones', tipo: 'fijo' },
+    { nombre: 'Publicidad', tipo: 'variable' },
+    { nombre: 'Movilidad y delivery', tipo: 'variable' },
+    { nombre: 'Sueldos', tipo: 'sueldo' },
+    { nombre: 'Otros gastos', tipo: 'otro' },
+  ];
+  for (const categoria of categoriasGasto) {
+    await prisma.categoriaGasto.upsert({
+      where: { nombre: categoria.nombre },
+      update: {},
+      create: categoria,
+    });
+  }
+  console.log('Categorías de gasto listas');
 }
 
 main()

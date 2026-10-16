@@ -182,7 +182,8 @@ export async function ajustarSaldo(id, { saldoReal, motivo }, usuario) {
 
 // ---------- Movimientos ----------
 
-const origenDe = (m) => (m.ventaId ? 'venta' : m.compraId ? 'compra' : 'manual');
+// Reemplaza la función origenDe por:
+const origenDe = (m) => (m.ventaId ? 'venta' : m.compraId ? 'compra' : m.gastoId ? 'gasto' : 'manual');
 
 // Efecto sobre el saldo: +1 suma, −1 resta, 0 neutro (transferencia vista sin filtrar por cuenta)
 function signoDe(m, cuentaFiltroId) {
@@ -206,6 +207,7 @@ function serializarMovimiento(m, cuentaFiltroId) {
     origen,
     ventaId: m.ventaId,
     compraId: m.compraId,
+    gastoId: m.gastoId,
     cuenta: { id: m.cuenta.id, nombre: m.cuenta.nombre },
     cuentaDestino: m.cuentaDestino ? { id: m.cuentaDestino.id, nombre: m.cuentaDestino.nombre } : null,
     anulado: m.anulado,

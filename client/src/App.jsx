@@ -16,6 +16,7 @@ import PedidoDetallePage from './pages/PedidoDetallePage';
 import ComprasPage from './pages/ComprasPage';
 import NuevaCompraPage from './pages/NuevaCompraPage';
 import CajaPage from './pages/CajaPage';
+import FinanzasPage from './pages/FinanzasPage';
 
 // "/" es el Dashboard para admin; el ayudante va directo a Ventas
 function Inicio() {
@@ -47,7 +48,7 @@ export default function App() {
             <Route path="compras" element={<ComprasPage />} />
             <Route path="compras/nueva" element={<NuevaCompraPage />} />
             <Route path="caja" element={<CajaPage />} />
-            <Route path="finanzas" element={<PaginaPendiente titulo="Finanzas" />} />
+            <Route path="finanzas" element={<FinanzasPage />} />
             <Route path="reportes" element={<PaginaPendiente titulo="Reportes" />} />
             <Route path="config" element={<PaginaPendiente titulo="Configuración" />} />
           </Route>
