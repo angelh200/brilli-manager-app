@@ -24,3 +24,13 @@ export function rangoMes(periodo) {
     lt: new Date(`${siguiente}-01T00:00:00-05:00`),
   };
 }
+
+// Suma (o resta, con n negativo) meses a un periodo AAAA-MM
+export function sumarMeses(periodo, n) {
+  const [anio, mes] = periodo.split('-').map(Number);
+  const total = anio * 12 + (mes - 1) + n;
+  return `${Math.floor(total / 12)}-${String((total % 12) + 1).padStart(2, '0')}`;
+}
+
+// Fecha AAAA-MM-DD de un día concreto dentro de un periodo
+export const fechaDePeriodo = (periodo, dia) => `${periodo}-${String(dia).padStart(2, '0')}`;

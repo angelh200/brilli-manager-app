@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -11,39 +10,48 @@ import { ETIQUETAS_TIPO_GASTO } from '@/lib/finanzas';
 import { hoyLima } from '@/lib/formato';
 import { numero } from '@/features/inventario/schemas';
 import { useCuentas } from '@/features/ventas/hooks';
-import { useCategoriasGasto, useRegistrarGasto } from '../hooks';
+import { useCategoriasGasto, useEmpleados, useRegistrarGasto } from '../hooks';
 
-function crearSchema() {
-  return z.object({
-    categoriaId: z.string().min(1, 'Elige la categoría'),
-    cuentaId: z.string().min(1, 'Elige la cuenta de la que salió el dinero'),
-    monto: numero('el monto', { min: 0 }).refine((n) => n > 0, 'El monto debe ser mayor que 0'),
-    descripcion: z.string().trim().max(200, 'No puede superar 200 caracteres'),
-    fecha: z
-      .string()
-      .min(1, 'Elige la fecha')
-      .refine((f) => f <= hoyLima(), 'La fecha no puede ser futura'),
-  });
-}
+const schema = z.object({
+  categoriaId: z.string().min(1, 'Elige la categoría'),
+  cuentaId: z.string().min(1, 'Elige la cuenta de la que salió el dinero'),
+  monto: numero('el monto', { min: 0 }).refine((n) => n > 0, 'El monto debe ser mayor que 0'),
+  descripcion: z.string().trim().max(200, 'No puede superar 200 caracteres'),
+  empleadoId: z.string(),
+  fecha: z
+    .string()
+    .min(1, 'Elige la fecha')
+    .refine((f) => f <= hoyLima(), 'La fecha no puede ser futura'),
+});
 
-function Formulario({ onCerrar, onAbrirCategorias }) {
+function Formulario({ inicial, onCerrar, onAbrirCategorias }) {
   const hoy = hoyLima();
   const { data: categorias = [] } = useCategoriasGasto();
   const { data: cuentas = [] } = useCuentas();
+  const { data: empleados = [] } = useEmpleados();
   const registrar = useRegistrarGasto();
-  const schema = useMemo(() => crearSchema(), []);
 
   const {
     register,
     control,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: { categoriaId: '', cuentaId: '', monto: '', descripcion: '', fecha: hoy },
+    defaultValues: {
+      categoriaId: inicial?.categoriaId ?? '',
+      cuentaId: '',
+      monto: inicial?.monto ?? '',
+      descripcion: inicial?.descripcion ?? '',
+      empleadoId: inicial?.empleadoId ?? 'ninguno',
+      fecha: hoy,
+    },
   });
 
   const activas = categorias.filter((c) => c.activa);
+  const categoria = activas.find((c) => String(c.id) === watch('categoriaId'));
+  const esSueldo = categoria?.tipo === 'sueldo';
 
   async function alEnviar(valores) {
     try {
@@ -52,6 +60,7 @@ function Formulario({ onCerrar, onAbrirCategorias }) {
         cuentaId: Number(valores.cuentaId),
         monto: valores.monto,
         descripcion: valores.descripcion,
+        empleadoId: esSueldo && valores.empleadoId !== 'ninguno' ? Number(valores.empleadoId) : null,
         // Si es hoy, el servidor usa la hora actual; otro día se registra al mediodía de Lima
         fecha: valores.fecha === hoy ? undefined : `${valores.fecha}T12:00:00-05:00`,
       });
@@ -91,6 +100,30 @@ function Formulario({ onCerrar, onAbrirCategorias }) {
           </button>
           .
         </p>
+      )}
+
+      {esSueldo && (
+        <CampoFormulario etiqueta="Empleado" htmlFor="empleadoId" error={errors.empleadoId?.message}>
+          <Controller
+            control={control}
+            name="empleadoId"
+            render={({ field }) => (
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger id="empleadoId" className="h-11 w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ninguno">Sin empleado</SelectItem>
+                  {empleados.map((e) => (
+                    <SelectItem key={e.id} value={String(e.id)}>
+                      {e.nombre}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          />
+        </CampoFormulario>
       )}
 
       <CampoFormulario etiqueta="Monto (S/)" htmlFor="monto" error={errors.monto?.message}>
@@ -138,16 +171,18 @@ function Formulario({ onCerrar, onAbrirCategorias }) {
   );
 }
 
-export default function GastoFormDialog({ abierto, onCerrar, onAbrirCategorias }) {
+// `inicial` (opcional): { titulo, categoriaId, monto, empleadoId, descripcion }, todos en texto
+export default function GastoFormDialog({ abierto, onCerrar, onAbrirCategorias, inicial = null }) {
   if (!abierto) return null;
   return (
     <Dialog open onOpenChange={(abrir) => !abrir && onCerrar()}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Nuevo gasto</DialogTitle>
+          <DialogTitle>{inicial?.titulo ?? 'Nuevo gasto'}</DialogTitle>
           <DialogDescription>Sale de la cuenta que elijas y se refleja en Caja.</DialogDescription>
         </DialogHeader>
         <Formulario
+          inicial={inicial}
           onCerrar={onCerrar}
           onAbrirCategorias={() => {
             onCerrar();
