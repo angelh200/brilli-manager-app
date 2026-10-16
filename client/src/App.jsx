@@ -17,12 +17,14 @@ import ComprasPage from './pages/ComprasPage';
 import NuevaCompraPage from './pages/NuevaCompraPage';
 import CajaPage from './pages/CajaPage';
 import FinanzasPage from './pages/FinanzasPage';
+import DashboardPage from './pages/DashboardPage';
 
+// "/" es el Dashboard para admin; el ayudante va directo a Ventas
 // "/" es el Dashboard para admin; el ayudante va directo a Ventas
 function Inicio() {
   const { usuario } = useAuth();
   if (usuario.rol !== 'admin') return <Navigate to="/ventas" replace />;
-  return <PaginaPendiente titulo="Dashboard" />;
+  return <DashboardPage />;
 }
 
 export default function App() {

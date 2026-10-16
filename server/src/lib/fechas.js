@@ -34,3 +34,12 @@ export function sumarMeses(periodo, n) {
 
 // Fecha AAAA-MM-DD de un día concreto dentro de un periodo
 export const fechaDePeriodo = (periodo, dia) => `${periodo}-${String(dia).padStart(2, '0')}`;
+
+// Día (AAAA-MM-DD) en hora de Lima al que pertenece una fecha y hora
+export const diaLima = (fecha) => new Date(fecha).toLocaleDateString('en-CA', { timeZone: ZONA });
+
+// Suma (o resta, con n negativo) días a una fecha AAAA-MM-DD
+export function sumarDias(aaaammdd, dias) {
+  const base = new Date(`${aaaammdd}T12:00:00-05:00`);
+  return new Date(base.getTime() + dias * 24 * 60 * 60 * 1000).toLocaleDateString('en-CA', { timeZone: ZONA });
+}
